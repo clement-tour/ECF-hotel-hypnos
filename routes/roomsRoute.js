@@ -40,4 +40,34 @@ router.post("/getroombyid", async (req, res) => {
   }
 });
 
+router.post("/addroom", async (req, res) => {
+  const {
+    name,
+    rentperday,
+    maxcount,
+    description,
+    phonenumber,
+    type,
+    imageurls,
+  } = req.body;
+  console.log(req.body);
+
+  const newroom = new Room({
+    name,
+    rentperday,
+    maxcount,
+    description,
+    phonenumber,
+    type,
+    imageurls,
+    currentbookings: [],
+  });
+  try {
+    await newroom.save();
+    res.send("La nouvelle chambre a bien été ajouté");
+  } catch (error) {
+    return res.status(400).json({ error });
+  }
+});
+
 module.exports = router;
