@@ -8,10 +8,12 @@ const dbConfig = require("./db");
 const roomsRoute = require("./routes/roomsRoute");
 const usersRoute = require("./routes/usersRoute");
 const bookingRoute = require("./routes/bookingsRoute");
+const hotelsRoute = require("./routes/hotelsRoute");
 
 app.use("/api/rooms", roomsRoute);
 app.use("/api/users", usersRoute);
 app.use("/api/bookings", bookingRoute);
+app.use("/api/hotels", hotelsRoute);
 
 const port = process.env.PORT || 2000;
 
