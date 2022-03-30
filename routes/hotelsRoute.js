@@ -35,7 +35,6 @@ router.put("/addhotel", async (req, res) => {
   console.log(req.body);
   try {
     const hotelTemp = await Hotel.findOne({ _id: hotelid });
-    console.log(hotelTemp);
     hotelTemp.name = name;
     hotelTemp.city = city;
     hotelTemp.address = address;
@@ -43,6 +42,19 @@ router.put("/addhotel", async (req, res) => {
 
     await hotelTemp.save();
     res.send("L'hôtel a bien été modifié'");
+  } catch (error) {
+    return res.status(400).json({ error });
+  }
+});
+
+router.put("/deletehotel", async (req, res) => {
+  const { hotelid, name, city, address, description } = req.body;
+  console.log(req.body);
+  try {
+    const hotelTemp = await Hotel.findOne({ _id: hotelid });
+
+    await hotelTemp.remove();
+    res.send("L'hôtel a bien été supprimé'");
   } catch (error) {
     return res.status(400).json({ error });
   }
