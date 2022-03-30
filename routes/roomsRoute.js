@@ -70,4 +70,29 @@ router.post("/addroom", async (req, res) => {
   }
 });
 
+router.put("/addroom", async (req, res) => {
+  const { roomid, name, type, rentperday, maxcount, phonenumber } = req.body;
+  try {
+    const roomTemp = await Room.findOne({ _id: roomid });
+    roomTemp = { name, type, rentperday, maxcount, phonenumber };
+
+    await roomTemp.save();
+    res.send("La chambre a bien été modifié'");
+  } catch (error) {
+    return res.status(400).json({ error });
+  }
+});
+
+router.put("/deleteroom", async (req, res) => {
+  const { roomid } = req.body;
+  try {
+    const roomTemp = await Room.findOne({ _id: roomid });
+
+    await roomTemp.remove();
+    res.send("La chambre a bien été supprimé'");
+  } catch (error) {
+    return res.status(400).json({ error });
+  }
+});
+
 module.exports = router;

@@ -32,13 +32,9 @@ router.post("/addhotel", async (req, res) => {
 
 router.put("/addhotel", async (req, res) => {
   const { hotelid, name, city, address, description } = req.body;
-  console.log(req.body);
   try {
     const hotelTemp = await Hotel.findOne({ _id: hotelid });
-    hotelTemp.name = name;
-    hotelTemp.city = city;
-    hotelTemp.address = address;
-    hotelTemp.description = description;
+    hotelTemp = { name, city, address, description };
 
     await hotelTemp.save();
     res.send("L'hôtel a bien été modifié'");
@@ -48,8 +44,7 @@ router.put("/addhotel", async (req, res) => {
 });
 
 router.put("/deletehotel", async (req, res) => {
-  const { hotelid, name, city, address, description } = req.body;
-  console.log(req.body);
+  const { hotelid } = req.body;
   try {
     const hotelTemp = await Hotel.findOne({ _id: hotelid });
 
