@@ -71,7 +71,7 @@ router.post("/cancelbooking", async (req, res) => {
 
     res.send("Votre réservation a bien été annulée");
   } catch (error) {
-    return res.status(400).json({ message: error });
+    return res.status(400).json({ error });
   }
 });
 
@@ -81,6 +81,49 @@ router.get("/getallbookings", async (req, res) => {
     res.send(bookings);
   } catch (error) {
     return res.status(400).json({ message: error });
+  }
+});
+
+router.post("/deletebooking", async (req, res) => {
+  const bookingid = req.body.bookingid;
+  const roomid = req.body.roomid;
+  console.log(req.body);
+
+  try {
+    await Booking.findOneAndDelete({ _id: bookingid });
+    const room = await Room.findOne({ _id: roomid });
+    const bookings = room.currentbookings;
+    console.log(bookings);
+    const temp = bookings.filter((booking) => {
+      console.log(booking.bookingid.toString());
+      console.log(bookingid);
+      booking.bookingid.toString() !== bookingid.toString();
+    });
+    console.log(temp);
+    room.currentbookings = temp;
+
+    await room.save();
+    res.send("booking Deleted Successfully");
+  } catch (error) {
+    console.log(error);
+    return res.status(400).json({ message: error });
+  }
+});
+
+router.put("/modifyUser", async (req, res) => {
+  console.log(req.body);
+  const { userid, name, email, isAdmin } = req.body;
+  try {
+    const userTemp = await User.findOne({ _id: userid });
+    userTemp.name = name;
+    userTemp.email = email;
+    userTemp.isAdmin = isAdmin;
+
+    await userTemp.save();
+    res.send("L'utilisateur a bien été modifié'");
+  } catch (error) {
+    console.log(error);
+    return res.status(400).json(error);
   }
 });
 

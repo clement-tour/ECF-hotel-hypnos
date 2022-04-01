@@ -35,11 +35,9 @@ router.post("/login", async (req, res) => {
         .json({ message: "L'email ou le mot de passe est incorrect" });
     }
   } catch (error) {
-    return res
-      .status(400)
-      .json({
-        message: "Une erreur est survenue, merci de réessayer ultérieurement",
-      });
+    return res.status(400).json({
+      message: "Une erreur est survenue, merci de réessayer ultérieurement",
+    });
   }
 });
 
@@ -60,6 +58,23 @@ router.post("/deleteuser", async (req, res) => {
     res.send("User Deleted Successfully");
   } catch (error) {
     return res.status(400).json({ message: error });
+  }
+});
+
+router.put("/modifyUser", async (req, res) => {
+  console.log(req.body);
+  const { userid, name, email, isAdmin } = req.body;
+  try {
+    const userTemp = await User.findOne({ _id: userid });
+    userTemp.name = name;
+    userTemp.email = email;
+    userTemp.isAdmin = isAdmin;
+
+    await userTemp.save();
+    res.send("L'utilisateur a bien été modifié'");
+  } catch (error) {
+    console.log(error);
+    return res.status(400).json(error);
   }
 });
 
