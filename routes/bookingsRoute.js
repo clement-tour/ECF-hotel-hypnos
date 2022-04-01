@@ -112,12 +112,12 @@ router.post("/deletebooking", async (req, res) => {
 
 router.put("/modifyUser", async (req, res) => {
   console.log(req.body);
-  const { userid, name, email, isAdmin } = req.body;
+  const { userid, name, email, status } = req.body;
   try {
     const userTemp = await User.findOne({ _id: userid });
     userTemp.name = name;
     userTemp.email = email;
-    userTemp.isAdmin = isAdmin;
+    userTemp.status = status;
 
     await userTemp.save();
     res.send("L'utilisateur a bien été modifié'");

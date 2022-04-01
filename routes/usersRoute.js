@@ -25,7 +25,7 @@ router.post("/login", async (req, res) => {
       const currentUser = {
         name: user[0].name,
         email: user[0].email,
-        isAdmin: user[0].isAdmin,
+        status: user[0].status,
         _id: user[0]._id,
       };
       res.send(currentUser);
@@ -63,12 +63,12 @@ router.post("/deleteuser", async (req, res) => {
 
 router.put("/modifyUser", async (req, res) => {
   console.log(req.body);
-  const { userid, name, email, isAdmin } = req.body;
+  const { userid, name, email, status } = req.body;
   try {
     const userTemp = await User.findOne({ _id: userid });
     userTemp.name = name;
     userTemp.email = email;
-    userTemp.isAdmin = isAdmin;
+    userTemp.status = status;
 
     await userTemp.save();
     res.send("L'utilisateur a bien été modifié'");
