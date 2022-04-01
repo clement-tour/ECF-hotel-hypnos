@@ -34,12 +34,18 @@ router.put("/addhotel", async (req, res) => {
   const { hotelid, name, city, address, description } = req.body;
   try {
     const hotelTemp = await Hotel.findOne({ _id: hotelid });
-    hotelTemp = { name, city, address, description };
+    hotelTemp.name = name;
+    hotelTemp.city = city;
+    hotelTemp.address = address;
+    hotelTemp.description = description;
+
+    // hotelTemp = { name, city, address, description };
 
     await hotelTemp.save();
     res.send("L'hôtel a bien été modifié'");
   } catch (error) {
-    return res.status(400).json({ error });
+    console.log(error);
+    return res.status(400).json(error);
   }
 });
 

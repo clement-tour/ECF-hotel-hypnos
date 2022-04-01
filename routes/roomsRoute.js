@@ -74,7 +74,12 @@ router.put("/addroom", async (req, res) => {
   const { roomid, name, type, rentperday, maxcount, phonenumber } = req.body;
   try {
     const roomTemp = await Room.findOne({ _id: roomid });
-    roomTemp = { name, type, rentperday, maxcount, phonenumber };
+    // roomTemp = { name, type, rentperday, maxcount, phonenumber };
+    roomTemp.name = name;
+    roomTemp.type = type;
+    roomTemp.rentperday = rentperday;
+    roomTemp.maxcount = maxcount;
+    roomTemp.phonenumber = phonenumber;
 
     await roomTemp.save();
     res.send("La chambre a bien été modifié'");
